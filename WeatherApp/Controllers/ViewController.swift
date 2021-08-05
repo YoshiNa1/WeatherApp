@@ -125,8 +125,7 @@ extension ViewController : UICollectionViewDataSource, UICollectionViewDelegate 
             return 7
         case 2:
 //            print(self.cities?.count ?? 0)
-//            return self.cities!.count
-            return 5
+            return self.cities!.count
         default:
             return 0
         }
