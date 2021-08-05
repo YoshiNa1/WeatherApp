@@ -37,8 +37,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.cities?.removeAll()
-
         updateUI()
         
         settingsButton.setImage(UIImage(named: "settings"), for: .normal)
@@ -94,17 +92,16 @@ class ViewController: UIViewController {
         self.currUvLabel.text = "\(self.currentWeather?.uvi ?? 0)"
         self.currWindLabel.text = "E \(self.currentWeather?.wind_speed ?? 0) kmh"
         
-   //     self.getCities()
-        
     }
     
     func getCities() {
-  //      self.cities?.removeAll()
-        self.addCity(lat: "46.4775", lon: "30.7326")
-        self.addCity(lat: "50.4500", lon: "30.5233")
-        self.addCity(lat: "52.5200", lon: "13.4049")
-        self.addCity(lat: "40.7306", lon: "-73.9352")
-  //      self.citiesCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.cities?.removeAll()
+            self.addCity(lat: "46.4775", lon: "30.7326")
+            self.addCity(lat: "50.4500", lon: "30.5233")
+            self.addCity(lat: "52.5200", lon: "13.4049")
+            self.addCity(lat: "40.7306", lon: "-73.9352")
+        }
     }
     
     func addCity(lat: String, lon: String) {
@@ -265,14 +262,12 @@ extension ViewController: CLLocationManagerDelegate {
         if let loc = locations.last {
             let lat = String(format: "%.4f", loc.coordinate.latitude)
             let lon = String(format: "%.4f", loc.coordinate.longitude)
-//            print(lat)
-//            print(lon)
+            
             NetworkManager.shared.getOneCallObjectCall(lat: lat, lon: lon) { [weak self] object in
                 self?.model = object
                 self?.currentWeather = object?.current
                 self?.dailyWeather = object?.daily
-//                self?.cities?.removeAll()
-                
+               
                 DispatchQueue.main.async {
                     self?.getCities()
                     self?.updateUI()
