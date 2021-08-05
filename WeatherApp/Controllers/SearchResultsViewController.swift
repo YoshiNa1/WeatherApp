@@ -44,9 +44,12 @@ class SearchResultsViewController: UIViewController {
         let lat = lat
         let lon = lon
         NetworkManager.shared.getOneCallObjectCall(lat: lat, lon: lon) { [weak self] object in
-         //   self?.cities?.append(object!)
-            print(object!)
-            self?.cities?.insert(object!, at: 0)
+           DispatchQueue.main.async {
+                self?.cities?.append(object!)
+               
+//                 print(self?.cities?.count as Any)
+//                 print(self?.cities as Any)
+            }
         }
     }
     
@@ -65,20 +68,12 @@ extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(places[indexPath.row].name)
         NetworkManager.shared.getCityCoordinates(name: places[indexPath.row].name) { [weak self] object in
             self?.model = object
             DispatchQueue.main.async {
                 let lat = self?.model?.candidates?[0].geometry?.location?.lat
                 let lon = self?.model?.candidates?[0].geometry?.location?.lng
-                
-                print(String(format: "%.4f", lat ?? 0.0))
-                print(String(format: "%.4f", lon ?? 0.0))
-                
                 self?.addCity(lat: String(format: "%.4f", lat ?? 0.0), lon: String(format: "%.4f", lon ?? 0.0))
-                
-//                let citiesVC = self?.storyboard?.instantiateViewController(identifier: "citiesVC") as? CitiesViewController
-//                citiesVC?.addedCitiesTableView.reloadData()
             }
             self?.searchVC.searchBar.showsCancelButton = false
             self?.searchVC.searchBar.text = nil
