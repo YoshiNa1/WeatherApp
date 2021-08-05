@@ -21,16 +21,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var currWindLabel: UILabel!
     
     @IBOutlet weak var weatherFor7DaysCollectionView: UICollectionView!
-    
     @IBOutlet weak var citiesCollectionView: UICollectionView!
-    
     
     private var locationManager : CLLocationManager?
    
     public var model : OneCallObject?
     var dailyWeather: [Daily]?
     var currentWeather: Current?
-    
     
     public var cities : [OneCallObject]? = Array<OneCallObject>()
     
