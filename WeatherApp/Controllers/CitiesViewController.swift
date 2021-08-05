@@ -12,7 +12,6 @@ class CitiesViewController: UIViewController {
     
     @IBOutlet weak var EditButton: UIBarButtonItem!
     
-    
     @IBOutlet weak var addedCitiesTableView: UITableView!
     let cellID = "cellID"
     
@@ -37,15 +36,14 @@ class CitiesViewController: UIViewController {
         addedCitiesTableView.isEditing = !addedCitiesTableView.isEditing
         EditButton.title = addedCitiesTableView.isEditing ? "Done" : "Edit"
     }
+    
 }
-
-
 
 //MARK: - extension for TableView
 extension CitiesViewController : UITableViewDataSource, UITableViewDelegate {
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return self.addedCities!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,7 +84,6 @@ extension CitiesViewController: UISearchResultsUpdating {
             switch result {
             case .success(let places):
                 DispatchQueue.main.async {
-                    print(places)
                     resultsVC.update(with: places)
                     resultsVC.cities = self.addedCities
                     resultsVC.searchVC = self.searchVC
